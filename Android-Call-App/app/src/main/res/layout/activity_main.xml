@@ -2,32 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
+
     <TextView
-        android:text="Hello, Android!"
+        android:text="Call Logs:"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-</LinearLayout>
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+
     <TextView
-        android:text="Hello, Android!"
+        android:id="@+id/callLogText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"/>
+
+    <TextView
+        android:text="SMS Messages:"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-</LinearLayout>
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+
     <TextView
-        android:text="Hello, Android!"
+        android:id="@+id/smsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/callButton"
+        android:text="Make Call"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/smsButton"
+        android:text="Send SMS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
