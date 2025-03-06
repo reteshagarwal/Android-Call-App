@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   push:
     branches:
-      - main  # Runs when you push to the main branch
+      - main  # Runs on push to the main branch
 
 jobs:
   build:
@@ -12,10 +12,10 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4  # Use latest version
+      uses: actions/checkout@v4  # Latest version
 
     - name: Set up JDK
-      uses: actions/setup-java@v4  # Use latest version
+      uses: actions/setup-java@v4  # Latest version
       with:
         distribution: 'temurin'
         java-version: '17'
@@ -23,14 +23,22 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
+    - name: Generate Gradle Wrapper (if missing)
+      run: |
+        cd Android-Call-App
+        if [ ! -f gradlew ]; then
+          echo "Gradle wrapper not found. Generating..."
+          gradle wrapper
+        fi
+        chmod +x gradlew
+
     - name: Build APK
       run: |
         cd Android-Call-App
-        chmod +x gradlew
         ./gradlew assembleDebug
 
     - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4  # Updated to v4
+      uses: actions/upload-artifact@v4  # Updated version
       with:
         name: android-apk
         path: Android-Call-App/app/build/outputs/apk/debug/app-debug.apk
