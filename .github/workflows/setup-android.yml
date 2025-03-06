@@ -1,0 +1,90 @@
+name: Android Project Setup
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  setup-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Create Android Project Structure
+        run: |
+          mkdir -p Android-Call-App/app/src/main/java/com/example/callapp
+          mkdir -p Android-Call-App/app/src/main/res/layout
+          mkdir -p Android-Call-App/app/src/main/res/values
+
+          echo "apply plugin: 'com.android.application'" > Android-Call-App/app/build.gradle
+          echo "rootProject.name = 'AndroidCallApp'" > Android-Call-App/settings.gradle
+          echo "include ':app'" >> Android-Call-App/settings.gradle
+
+          cat <<EOT >> Android-Call-App/app/src/main/java/com/example/callapp/MainActivity.java
+          package com.example.callapp;
+
+          import android.os.Bundle;
+          import androidx.appcompat.app.AppCompatActivity;
+
+          public class MainActivity extends AppCompatActivity {
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  setContentView(R.layout.activity_main);
+              }
+          }
+          EOT
+
+          cat <<EOT >> Android-Call-App/app/src/main/AndroidManifest.xml
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+              package="com.example.callapp">
+              <application
+                  android:allowBackup="true"
+                  android:theme="@style/Theme.AppCompat.Light">
+                  <activity android:name=".MainActivity">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity>
+              </application>
+          </manifest>
+          EOT
+
+          cat <<EOT >> Android-Call-App/app/src/main/res/layout/activity_main.xml
+          <?xml version="1.0" encoding="utf-8"?>
+          <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical">
+              <TextView
+                  android:text="Hello, Android!"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+          </LinearLayout>
+          EOT
+
+          cat <<EOT >> Android-Call-App/app/src/main/res/values/strings.xml
+          <resources>
+              <string name="app_name">Android Call App</string>
+          </resources>
+          EOT
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Initial Android project setup"
+          git push
